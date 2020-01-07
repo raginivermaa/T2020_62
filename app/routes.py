@@ -1,21 +1,13 @@
 from app import app
 import requests
+from flask import render_template
 import json
 
 @app.route('/')
 @app.route('/index')
-
 def index():
     user = {'username': 'Miguel'}
-    return '''
-<html>
-    <head>
-        <title>Home Page - DBS</title>
-    </head>
-    <body>
-        <h1>Hello, ''' + user['username'] + '''!</h1>
-    </body>
-</html>'''
+    return render_template('index.html', title='Home', user=user)
 
 @app.route('/id')
 def get_id():
@@ -58,11 +50,19 @@ def get_transactions():
                             + deposit_account + '?from=' + from_date + '&to=' + to_date, headers = headers_dict)
     print(response)
     details_json = response.json()
+    expenditure = 0
+
+    for transaction in details_json:
+        # now song is a dictionary
+        expenditure += float(transaction['amount'])
+    expenditure = "{0:.2f}".format(expenditure)
+    print(expenditure)
+
     return str(details_json)
 
 @app.route('/balance')
 def get_balance():
-    #headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
+    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     deposit_account = '79'
     month = '0'
     year = '2019'
