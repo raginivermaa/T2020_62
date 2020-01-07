@@ -6,12 +6,14 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'username': 'Miguel'}
+    user = {'username': 'Mary'}
     return render_template('index.html', title='Home', user=user)
+
+global headers_dict
+headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
 
 @app.route('/id')
 def get_id():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     userName = 'marytan'
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/customers/'
                             + userName, headers = headers_dict)
@@ -22,7 +24,6 @@ def get_id():
 
 @app.route('/details')
 def get_details():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     customerId = '2'
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/customers/'
                             + customerId + '/details', headers = headers_dict)
@@ -32,7 +33,6 @@ def get_details():
 
 @app.route('/deposit_accounts')
 def get_deposit_accounts():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     customerId = '2'
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/accounts/deposit/'
                             + customerId, headers = headers_dict)
@@ -42,7 +42,6 @@ def get_deposit_accounts():
 
 @app.route('/transactions')
 def get_transactions():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     deposit_account = '79'
     from_date = '01-01-2018'
     to_date = '01-30-2020'
@@ -62,7 +61,6 @@ def get_transactions():
 
 @app.route('/balance')
 def get_balance():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     deposit_account = '79'
     month = '0'
     year = '2019'
@@ -74,14 +72,12 @@ def get_balance():
 
 @app.route('/marketing')
 def get_marketing():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/marketing', headers = headers_dict)
     mm_json = response.json()
     return str(mm_json)
 
 @app.route('/message')
 def get_marketing_message():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     message_id = '2'
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/marketing/' + message_id,
                             headers = headers_dict)
@@ -90,7 +86,6 @@ def get_marketing_message():
 
 @app.route('/personal')
 def get_personal_message():
-    headers_dict = {'identity' : 'T58', 'token': '57861dcd-3ed9-4647-9cb1-fbeac1d10e47'}
     customerId = '2'
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/message/' + customerId,
                             headers = headers_dict)
