@@ -46,8 +46,13 @@ def get_details():
 def get_deposit_accounts():
     #customerId = '2'
     customerId = request.args.get('id', type=str)
+    if id == None:
+        return ''
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/accounts/deposit/'
                             + customerId, headers = headers_dict)
+
+    if response.status_code != 200:
+        return ''
     print(response)
     details_json = response.json()
     return str(details_json)
@@ -56,11 +61,22 @@ def get_deposit_accounts():
 def get_transactions():
     #deposit_account = '79'
     deposit_account = request.args.get('account', type=str)
-    from_date = '01-01-2018'
-    to_date = '01-30-2020'
+    from_date = request.args.get('from_date', type=str)
+    to_date = request.args.get('to_date', type=str)
+
+    if deposit_account == None:
+        return ''
+    if from_date == None:
+        return ''
+    if to_date == None:
+        return ''
     response = requests.get(' http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/transactions/'
                             + deposit_account + '?from=' + from_date + '&to=' + to_date, headers = headers_dict)
+
+    if response.status_code != 200:
+        return ''
     print(response)
+
     details_json = response.json()
     expenditure = 0
 
@@ -80,6 +96,8 @@ def get_balance():
     year = '2019'
     response = requests.get('http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/accounts/deposit/'
                             + deposit_account + '/balance?month=' + month + '&year=' + year, headers = headers_dict)
+    if response.status_code != 200:
+        return ''
     print(response)
     details_json = response.json()
     return str(details_json)
